@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# This script loops infinitely, but responds to SIGTERM with a message instead of exiting
+
+trap 'echo "I am invincible!!!"' SIGTERM
+
+while true; do
+    echo "To infinity and beyond"
+    sleep 2
+done

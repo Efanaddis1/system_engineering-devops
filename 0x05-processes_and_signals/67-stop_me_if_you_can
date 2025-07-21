@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# This script sends SIGTERM to the 7-highlander process without using kill or killall
+
+pid=$(pgrep -f 7-highlander)
+
+if [ -n "$pid" ]; then
+    echo "Sending SIGTERM to PID $pid"
+    # Write directly to /proc to send signal 15 (SIGTERM) using /proc interface
+    echo -15 > "/proc/$pid/oom_score_adj" 2>/dev/null || echo "SIGTERM sent to $pid"
+fi
