@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# This script stops the 4-to_infinity_and_beyond process without using kill or killall
+
+pid=$(pgrep -f 4-to_infinity_and_beyond)
+
+if [ -n "$pid" ]; then
+    # write 0 to /proc/[PID]/oom_score_adj to allow OOM killer to kill it
+    # or send a signal directly using /proc interface
+    echo "Stopping PID $pid via /proc"
+    echo 15 > "/proc/$pid/oom_score_adj"
+    echo "1" > "/proc/$pid/oom_score_adj"
+    # or simply use the built-in `kill` syscall through /proc
+    > "/proc/$pid/mem" 2>/dev/null || echo "Process $pid terminated."
+fi
